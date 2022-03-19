@@ -1,1 +1,63 @@
-The documentation is left as an exercise to the reader.
+IMPARTIAL provides partial trace and partial transposition for Kronecker
+representation of multi-partite discrete variable quantum systems.
+
+Operating principles
+
+  (1) Partial transposition
+
+  Consider an arbitrary bipartite quantum state, 
+
+               rho = sum(i, j, k, l) r(i, j, k, l) |i><j| |k><l|.
+
+  We define the partial transposition in respect to the second system as
+
+             pt(rho) = sum(i, j, k, l) r(i, j, k, l) |i><j| |l><k|
+                     = sum(i, j, k, l) r(i, j, l, k) |i><j| |k><l|.
+
+  In Kronecker representation the density operator is encoded in a matrix
+  rather than the rank four tensor rho. Unfortunately the partial transposition
+  is not as straightforward this matrix representation.
+
+  One of the possible approaches is to determine the affected indices of the
+  Kronecker matrix. Not only is this cumbersome, it is also inelegant.
+
+  A better alternative is to reshape the matrix into tensor form of appropriate
+  rank. The reshaping operation only changes the interpretation of the
+  underlying memory.
+
+  Suppose R is the Kronecker representation of the state rho. Suppose (m, n)
+  are the dimensions of the individual systems comprising the state. With
+
+                         q = reshape(R, [ m, n, m, n ])
+
+  we obtain a rank four tensor. Unfortunately the tensor q is not the same as
+  the tensor r. The order of their indices is different. We have
+
+                                 q(i, k, j, l)
+
+  instead of the original r(i, j, k, l). Consequently the partial transposition
+  corresponds to the index exchange
+
+                                 q(i, l, j, k).
+
+  We can reconstruct the Kronecker representation by reshaping the tensor back
+  into the original matrix shape.
+
+  This idea can be generalized to arbitrary amount of components. It is
+  practical to use the standard numpy.transpose procedure and supply the
+  correct axial permutation. Our ptranspose does exactly that.
+
+  (2) Partial trace
+  
+  We build on the same idea for partial traces and then add a figurative cherry
+  on top: by reordering the tensor we can trace out everything in a single go.
+
+Notes and acknowledgements
+
+  I was inspired by QuTiP (https://github.com/qutip/qutip) and their
+  essentially identical implementation. At first glance it looked like dark
+  magic and there was no explanation why it worked and what it did.
+
+Documentation
+
+  The documentation is left as an exercise to the reader .

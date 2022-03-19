@@ -2,7 +2,10 @@
 #
 # 2021 - 2022 Jan Provaznik (jan@provaznik.pro)
 #
-# Let's see how poorly this goes.
+# Partial trace and partial transposition for Kronecker representation of
+# multi-partite discrete variable quantum systems.
+#
+# See README for discussion of the operating principles.
 
 def ptranspose (R, dims, mask):
     '''
@@ -112,6 +115,7 @@ def mask_from_carry (index_carry_list, nsys):
     ]
 
 # Exports 
+
 __all__ = [
     'ptrace',
     'ptranspose',
