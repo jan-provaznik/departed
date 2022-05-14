@@ -52,12 +52,31 @@ Operating principles
   We build on the same idea for partial traces and then add a figurative cherry
   on top: by reordering the tensor we can trace out everything in a single go.
 
+  Let us begin with a bipartite system again with density matrix
+
+               rho = sum(i, j, k, l) r(i, j, k, l) |i><j| |k><l|.
+
+  We define the partial trace performed over the second system as
+
+         rho' = sum(u) sum(i, j, k, l) r(i, j, k, l) |i><j| <u|k> <l|u>
+              = sum(i, j, k) r(i, j, k, k) |i><j|
+              = sum(i, j) [ sum(k) r(i, j, k, k) ] |i><j|
+
+  where we have presumed orthogonality of individual { |k>, |l> } kets.
+
 Notes and acknowledgements
 
   I was inspired by QuTiP (https://github.com/qutip/qutip) and their
   essentially identical implementation. At first glance it looked like dark
   magic and there was no explanation why it worked and what it did.
 
+Installation
+
+  pip install --user --upgrade \
+      git+https://github.com/jan-provaznik/impartial.git
+
 Documentation
 
-  The documentation is left as an exercise to the reader .
+  The documentation is left as an exercise to the reader.
+
+
