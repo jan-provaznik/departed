@@ -15,8 +15,8 @@ Operating principles
                      = sum(i, j, k, l) r(i, j, l, k) |i><j| |k><l|.
 
   In Kronecker representation the density operator is encoded in a matrix
-  rather than the rank four tensor rho. Unfortunately the partial transposition
-  is not as straightforward this matrix representation.
+  rather than the rank four tensor r(i, j, k l). Consequently the partial
+  transposition is not as straightforward this matrix representation.
 
   One of the possible approaches is to determine the affected indices of the
   Kronecker matrix. Not only is this cumbersome, it is also inelegant.
@@ -30,8 +30,8 @@ Operating principles
 
                          q = reshape(R, [ m, n, m, n ])
 
-  we obtain a rank four tensor. Unfortunately the tensor q is not the same as
-  the tensor r. The order of their indices is different. We have
+  we obtain a rank four tensor. But alas the tensor q is not the same as
+  the tensor r(i, j, k, l). The order of their indices is different. We have
 
                                  q(i, k, j, l)
 
