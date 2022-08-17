@@ -18,7 +18,8 @@ def ptranspose (R, dims, mask):
     dims : iterable
         Dimensions of individual components.
     mask : iterable
-        Which components should be transposed (1) and which should be left unaltered (0).
+        Which components should be transposed (1) and which should be left unaltered (0). 
+        It is absolutely necessary to use either 0 or 1 in the mask.
 
     Returns
     -------

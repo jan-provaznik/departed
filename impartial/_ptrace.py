@@ -30,7 +30,6 @@ def ptrace (R, dims, mask):
     
     dims = list(dims)
     mask = list(mask)
-    
     nsys = len(dims)
     
     index_trace = [ m for m in range(nsys) if     mask[m] ]

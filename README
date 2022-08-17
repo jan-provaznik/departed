@@ -15,8 +15,8 @@ Operating principles
                      = sum(i, j, k, l) r(i, j, l, k) |i><j| |k><l|.
 
   In Kronecker representation the density operator is encoded in a matrix
-  rather than the rank four tensor r(i, j, k l). Consequently the partial
-  transposition is not as straightforward this matrix representation.
+  rather than the rank four tensor r(i, j, k l). The partial transposition 
+  is not as straightforward in this representation.
 
   One of the possible approaches is to determine the affected indices of the
   Kronecker matrix. Not only is this cumbersome, it is also inelegant.
@@ -30,15 +30,15 @@ Operating principles
 
                          q = reshape(R, [ m, n, m, n ])
 
-  we obtain a rank four tensor. But alas the tensor q is not the same as
-  the tensor r(i, j, k, l). The order of their indices is different. We have
+  we obtain a rank four tensor q. But alas the tensor q is not the same as
+  the tensor r(i, j, k, l). The order of their indices is different! We have
 
                                  q(i, k, j, l)
 
   instead of the original r(i, j, k, l). Consequently the partial transposition
-  corresponds to the index exchange
+  corresponds to exchange of the 2nd and 4th index,
 
-                                 q(i, l, j, k).
+                             pt(q) = q(i, l, j, k).
 
   We can reconstruct the Kronecker representation by reshaping the tensor back
   into the original matrix shape.
@@ -64,6 +64,22 @@ Operating principles
 
   where we have presumed orthogonality of individual { |k>, |l> } kets.
 
+  In Kronecker representation the density operator is encoded in a matrix
+  rather than the rank four tensor r(i, j, k l). We have already established 
+  that the matrix R, corresponding to rho in Kronecker representation, can be
+  reshaped into tensor form with different order of indices,
+
+                                 q(i, k, j, l)
+
+  which means that to obtain the partial trace, we must evaluate
+
+                         g(i, j) = sum(k) q(i, k, j, k)
+
+  which defines the (i, j) elements of the marginal matrix. This approach can
+  be extended for multi-partite systems and further optimized. We can permute
+  the axes to gather the parts to be traced out into a single block and then
+  compute the trace in one go.
+
 Notes and acknowledgements
 
   I was inspired by QuTiP (https://github.com/qutip/qutip) and their
@@ -75,13 +91,31 @@ Installation
   pip install --user --upgrade \
       git+https://github.com/jan-provaznik/impartial.git
 
+Documentation
+
+  The documentation is left as an exercise to the reader. 
+
 Examples
 
   Partial trace is demonstrated in examples/ptrace.
   Partial transposition is demonstrated in examples/ptranspose.
 
-Documentation
+Tutorial
 
-  The documentation is left as an exercise to the reader.
+  Currently the module exports three functions, ptrace, ptranspose and utility
+  function mask_from_carry. The primary functions, ptrace and ptranspose,
+  expect three arguments,
+
+  (1) the matrix (in Kronecker form) to be transformed
+  (2) the list of dimensions of individual part of the system
+  (3) the mask specifying which parts should be affected by the transformation.
+
+  We set 0 for parts which should remain unchanged and 1 for those which should
+  be partially transposed or traced out.
+
+  The utility function, mask_from_carry, can be used to construct the mask from
+
+  (1) the list of parts that should remain unchanged
+  (2) the number of parts comprising the system.
 
 
