@@ -6,7 +6,7 @@
 
 import setuptools
 
-VERSION = '0.1'
+VERSION = '0.2'
 DESCRIPTION = 'Partial trace and partial transposition for Kronecker representation of multi-partite discrete variable quantum systems.'
 
 # Yes, yes, yes!

@@ -62,6 +62,8 @@ def ptrace (R, dims, mask):
     numpy.ndarray
         Partially transposed matrix.
     '''
+
+    import numpy
     
     dims = list(dims)
     mask = list(mask)
