@@ -78,6 +78,7 @@ Installation
 Examples
 
   Partial trace is demonstrated in examples/ptrace.
+  Partial transposition is demonstrated in examples/ptranspose.
 
 Documentation
 
