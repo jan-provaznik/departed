@@ -75,6 +75,10 @@ Installation
   pip install --user --upgrade \
       git+https://github.com/jan-provaznik/impartial.git
 
+Examples
+
+  Partial trace is demonstrated in examples/ptrace.
+
 Documentation
 
   The documentation is left as an exercise to the reader.
