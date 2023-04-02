@@ -5,16 +5,17 @@
 # Partial trace and partial transposition for Kronecker representation of
 # multi-partite discrete variable quantum systems.
 #
-# See README for discussion of the operating principles.
+# See README for detailed discussion of its operating principles.
 
-version = '0.2.2'
+version = '0.3.0'
 
-#
-
+# Partial trace.
 from ._ptrace import ptrace
+
+# Partial transpose.
 from ._ptranspose import ptranspose
 
-def mask_from_carry (index_carry_list, nsys):
+def mask_from_index_list (index_list, nsys):
     '''
     Constructs a mask from a list of indices specifying which components
     of a kronecker-product structured matrix should be kept unaltered.
@@ -32,7 +33,7 @@ def mask_from_carry (index_carry_list, nsys):
         Mask compatible with ptrace and ptranspose procedures.
     '''
 
-    kset = set(index_carry_list)
+    kset = set(index_list)
     return [
         0 if (index in kset) else 1
         for index in range(nsys)
@@ -43,7 +44,7 @@ def mask_from_carry (index_carry_list, nsys):
 __all__ = [
     'ptrace',
     'ptranspose',
-    'mask_from_carry',
+    'mask_from_index_list',
     'version'
 ]
 

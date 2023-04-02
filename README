@@ -1,6 +1,10 @@
 IMPARTIAL provides partial trace and partial transposition for Kronecker
 representation of multi-partite discrete variable quantum systems.
 
+Installation
+
+  As of version 0.3.0
+
 Operating principles
 
   (1) Partial transposition
