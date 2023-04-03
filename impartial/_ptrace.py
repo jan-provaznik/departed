@@ -12,7 +12,7 @@ import functools
 
 def ptrace (matrix, component_dims, component_mask):
     '''
-    Computes the partial trace of a kronecker-product structured matrix.
+    Compute the partial trace of a kronecker-product structured matrix.
     
     Parameters
     ----------
@@ -21,7 +21,8 @@ def ptrace (matrix, component_dims, component_mask):
     component_dims : iterable (of integers)
         Dimensions of individual components.
     component_mask : iterable (of integers)
-        Specifies whether a component should be traced out (1) or kept (0).
+        Specifies whether a component should be 
+        traced out (1) or kept (0).
     
     Returns
     -------
@@ -29,8 +30,8 @@ def ptrace (matrix, component_dims, component_mask):
         The marginal matrix.
     '''
     
-    dims = list(component_dims)
-    mask = list(component_mask)
+    dims = list(map(int, component_dims))
+    mask = list(map(int, component_mask))
     nsys = len(dims)
 
     # Computes indices of components that should be either 
@@ -54,9 +55,9 @@ def ptrace (matrix, component_dims, component_mask):
     
     system_axes = [ (m, m + nsys) for m in range(nsys) ]
 
-    # Construct a permutation vector to reorganize the tensor representation
-    # so that the components to be traced out are placed before the components
-    # to be carried over. Their original order is retained.
+    # Construct a permutation vector to reorganize the tensor representation so
+    # that axes of the components to be traced out are placed before the
+    # components to be carried over. Their original order is retained.
 
     permutation = (
         [ system_axes[m][0] for m in index_trace ] + 

@@ -9,11 +9,12 @@
 
 version = '0.3.0'
 
-# Partial trace.
-from ._ptrace import ptrace
+# Partial trace and partial transpose.
 
-# Partial transpose.
+from ._ptrace import ptrace
 from ._ptranspose import ptranspose
+
+# Utility functions.
 
 def mask_from_index_list (index_list, nsys):
     '''
@@ -22,7 +23,7 @@ def mask_from_index_list (index_list, nsys):
 
     Parameters
     ----------
-    index_carry_list : iterable
+    index_list : iterable
         The list of indices to carry unaltered.
     nsys : int
         The total number of components.
@@ -39,7 +40,7 @@ def mask_from_index_list (index_list, nsys):
         for index in range(nsys)
     ]
 
-# Exports 
+# Module exports 
 
 __all__ = [
     'ptrace',
