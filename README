@@ -1,5 +1,6 @@
-IMPARTIAL provides partial trace and partial transposition for Kronecker
-representation of multi-partite discrete variable quantum systems.
+IMPARTIAL provides partial trace and partial transposition procedures for
+Kronecker-product structured matrices, such as those representing states of 
+multi-partite discrete variable quantum systems.
 
 Installation
 
@@ -24,7 +25,7 @@ Documentation
 
     : component_mask
       defines a mask specifying whether a component should be 
-      traced out (1) or kept (0).
+      traced out (1, True) or kept (0, False).
 
   - ptranspose (matrix, component_dims, component_mask)
 
@@ -38,13 +39,14 @@ Documentation
 
     : component_mask
       defines a mask specifying whether a component should be 
-      transposed (1) or left unaltered (0).
+      transposed (1, True) or left unaltered (0, False).
 
   - mask_from_index_list (index_list, system_size, inverse = False)
 
     A helper function, creates a component_mask from a index_list of components
-    that should be left unaffected. With inverse set to True the procedure
-    interprets index_list as a list of components that should be affected.
+    that should be left unaffected by ptrace and ptranspose operations. With
+    inverse set to True the procedure interprets index_list as a list of
+    components that should be affected.
 
     : index_list
       defines a list of component indices 

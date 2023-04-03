@@ -22,7 +22,7 @@ def ptrace (matrix, component_dims, component_mask):
         Dimensions of individual components.
     component_mask : iterable (of integers)
         Specifies whether a component should be 
-        traced out (1) or kept (0).
+        traced out (1, True) or kept (0, False).
     
     Returns
     -------
@@ -31,7 +31,7 @@ def ptrace (matrix, component_dims, component_mask):
     '''
     
     dims = list(map(int, component_dims))
-    mask = list(map(int, component_mask))
+    mask = list(map(int, map(bool, component_mask)))
     nsys = len(dims)
 
     # Computes indices of components that should be either 

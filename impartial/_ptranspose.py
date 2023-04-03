@@ -19,7 +19,7 @@ def ptranspose (matrix, component_dims, component_mask):
         Dimensions of individual components.
     component_mask : iterable (if integers)
         Specifies whether a component should be 
-        transposed (1) or left unaltered (0).
+        transposed (1, True) or left unaltered (0, False).
 
     Returns
     -------
@@ -28,7 +28,7 @@ def ptranspose (matrix, component_dims, component_mask):
     '''
 
     dims = list(map(int, component_dims))
-    mask = list(map(int, component_mask))
+    mask = list(map(int, map(bool, component_mask)))
     nsys = len(dims)
 
     # Construct a look-up table for component axes.
