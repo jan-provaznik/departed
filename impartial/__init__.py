@@ -16,17 +16,22 @@ from ._ptranspose import ptranspose
 
 # Utility functions.
 
-def mask_from_index_list (index_list, nsys):
+def mask_from_index_list (index_list, system_size, inverse = False):
     '''
     Constructs a mask from a list of indices specifying which components
-    of a Kronecker-product structured matrix should be kept unaltered.
+    of a Kronecker-product structured matrix should be either kept unaltered.
+
+    If inverse is set to True, the index_list instead 
+    specifies components which should be modified (transposed, traced out).
 
     Parameters
     ----------
     index_list : iterable
         The list of indices to carry unaltered.
-    nsys : int
+    system_size : int
         The total number of components.
+    inverse : bool
+        Inverts behavior.
 
     Returns
     -------
@@ -34,10 +39,14 @@ def mask_from_index_list (index_list, nsys):
         Mask compatible with ptrace and ptranspose procedures.
     '''
 
-    kset = set(index_list)
+    target_value = 0, 1
+    if inverse:
+        target_value = 1, 0
+
+    index_list_set = set(index_list)
     return [
-        0 if (index in kset) else 1
-        for index in range(nsys)
+        target_value[0] if (index in index_list_set) else target_value[1]
+        for index in range(system_size)
     ]
 
 # Module exports 
