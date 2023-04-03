@@ -9,7 +9,7 @@
 
 def ptranspose (matrix, component_dims, component_mask):
     '''
-    Compute the partial transpose of a kronecker-product structured matrix.
+    Compute the partial transpose of a Kronecker-product structured matrix.
 
     Parameters
     ----------

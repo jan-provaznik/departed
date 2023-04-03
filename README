@@ -3,11 +3,48 @@ representation of multi-partite discrete variable quantum systems.
 
 Installation
 
-  As of version 0.3.0
+  As of release 0.3.0 it is possible to retrieve the latest release of the
+  package from PyPi by running 'pip install --user impartial'
 
-Operating principles
+Notes and acknowledgements
 
-  (1) Partial transposition
+  This project was inspired by QuTiP (https://github.com/qutip/qutip) and their
+  essentially identical implementation. This project aims to explain the
+  underlying principles behind these functions.
+
+Operating principles (Kronecker-product representation)
+
+  Understanding the internal memory layout of the Kronecker-product structured
+  matrix is fundamental for both the partial trace and partial transposition
+  operations. Both algorithms begin with appropriate reshaping of the matrix
+  into its tensor form. 
+  
+  Consider a tensor product of three matrix spaces, the first one a space of (m
+  x m) dimensional matrices, the second one a space of (n x n) dimensional
+  matrices and the third one a space of (o x o) dimensional matrices. Matrices
+  from the product space (mno x mno) dimensional. 
+
+  Let C be a matrix from this product space. Its tensor representation,
+  can be obtained through
+
+                    tensor = matrix.reshape([ m, n, o, m, n, o ])
+
+  where the first three axes each correspond to the 1st axis of matrices from
+  the constituent spaces. The last three axes each correspond to the 2nd axis
+  of these matrices. 
+
+  For example, should one have three matrices - A, B and C - and their 
+  kronecker product, kron(kron(A, B), C), the element 
+
+                            tensor[:, 0, 2, :, 1, 3 ]
+
+  of its tensor representation would give the
+
+                             A * B[0, 1], * C[2, 3]
+
+  matrix.
+
+Operating principles (partial transposition)
 
   Consider an arbitrary bipartite quantum state, 
 
@@ -51,7 +88,7 @@ Operating principles
   practical to use the standard numpy.transpose procedure and supply the
   correct axial permutation. Our ptranspose does exactly that.
 
-  (2) Partial trace
+Operating principles (partial trace)
   
   We build on the same idea for partial traces and then add a figurative cherry
   on top: by reordering the tensor we can trace out everything in a single go.
@@ -83,17 +120,6 @@ Operating principles
   be extended for multi-partite systems and further optimized. We can permute
   the axes to gather the parts to be traced out into a single block and then
   compute the trace in one go.
-
-Notes and acknowledgements
-
-  I was inspired by QuTiP (https://github.com/qutip/qutip) and their
-  essentially identical implementation. At first glance it looked like dark
-  magic and there was no explanation why it worked and what it did.
-
-Installation
-
-  pip install --user --upgrade \
-      git+https://github.com/jan-provaznik/impartial.git
 
 Documentation
 

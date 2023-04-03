@@ -19,7 +19,7 @@ from ._ptranspose import ptranspose
 def mask_from_index_list (index_list, nsys):
     '''
     Constructs a mask from a list of indices specifying which components
-    of a kronecker-product structured matrix should be kept unaltered.
+    of a Kronecker-product structured matrix should be kept unaltered.
 
     Parameters
     ----------

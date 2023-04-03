@@ -12,7 +12,7 @@ import functools
 
 def ptrace (matrix, component_dims, component_mask):
     '''
-    Compute the partial trace of a kronecker-product structured matrix.
+    Compute the partial trace of a Kronecker-product structured matrix.
     
     Parameters
     ----------
