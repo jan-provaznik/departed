@@ -2,7 +2,7 @@ from impartial import mask_from_component_list
 
 def test_mask ():
     mask_target = [ 1, 0, 0, 1 ]
-    mask_result = mask_from_component_list([ 1, 2 ], 4, False)
+    mask_result = mask_from_component_list([ 1, 2 ], 4, True)
 
     assert mask_target == mask_result
 
