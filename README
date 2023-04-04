@@ -27,6 +27,15 @@ Documentation
       defines a mask specifying whether a component should be 
       traced out (1, True) or kept (0, False).
 
+    Example
+
+      Consider a density matrix R of a three qubit quantum state. A partial
+      trace with respect to the 1st and 3rd qubit is obtained with 
+
+        ptrace(R, [ 2, 2, 2 ], [ 1, 0, 1 ])
+
+      where the mask [ 1, 0, 1 ] sets 1 for components that will be traced out.
+
   - ptranspose (matrix, component_dims, component_mask)
 
     Computes the partial transpose of a Kronecker-product structured matrix.
@@ -41,52 +50,79 @@ Documentation
       defines a mask specifying whether a component should be 
       transposed (1, True) or left unaltered (0, False).
 
-  - mask_from_index_list (index_list, system_size, inverse = False)
+    Example
 
-    A helper function, creates a component_mask from a index_list of components
-    that should be left unaffected by ptrace and ptranspose operations. With
-    inverse set to True the procedure interprets index_list as a list of
-    components that should be affected.
+      Consider a density matrix R of a three qubit quantum state. A partial
+      transposition with respect to the 1st and 3rd qubit is obtained with
 
-    : index_list
-      defines a list of component indices 
+        ptranspose(R, [ 2, 2, 2 ], [ 1, 0, 1 ])
 
-    : system_size
-      defines the total number of components
+      where the mask [ 1, 0, 1 ] sets 1 for components that will be transposed.
 
-    : inverse
-      defines how index_list is interpreted
+  - mask_from_component_list (component_list, mask_width, set_ones = True)
 
-Operating principles of Kronecker-product and tensor representation
+    A helper function which can be used to construct a component_mask from a
+    list of component indices. By default 1 set for components listed in
+    index_list and 0 for those unlisted. 
 
-  Understanding the internal memory layout of the Kronecker-product structured
+    This logic can be inverted by setting set_ones = False. The resulting mask
+    will have 0 is set for listed components and 1 for those unlisted.
+
+    : component_list
+      defines a list of component indices (starting from 0)
+
+    : mask_width
+      defines the total number of components (mask width)
+
+    : set_ones
+      defines how component_list is translated into component_mask
+
+    Example
+
+      Consider a system with 5 components. Suppose the partial operation of
+      choice is performed with respect to the 2nd and 4th component. The
+      corresponding mask [ 0, 1, 0, 1, 0 ] can be constructed with
+
+        mask_from_component_list([ 1, 3 ], 5)
+
+      where we note that the indices start from 0.
+
+      Suppose that the partial operation should NOT affect the 3rd and the 5th
+      component. The respective mask [ 1, 1, 0, 1, 0 ] can be constructed with
+
+        mask_from_component_list([ 2, 4 ], 5, set_ones = False)
+
+      where setting the optional parameter set_ones to False inverts the mask.
+
+Operating principles of Kronecker product and tensor representation
+
+  Understanding the internal memory layout of the Kronecker-structured
   matrix is fundamental for both the partial trace and partial transposition
   operations. Both algorithms begin with appropriate reshaping of the matrix
   into its tensor form. 
   
-  Consider a tensor product of three matrix spaces, the first one a space of (m
-  x m) dimensional matrices, the second one a space of (n x n) dimensional
-  matrices and the third one a space of (o x o) dimensional matrices. Matrices
-  from the product space (mno x mno) dimensional. 
+  Consider a tensor product of three matrix spaces. Let the first one be a
+  space of (m x m) dimensional matrices, the second one a space of (n x n)
+  dimensional matrices and finally the third one a space of (o x o) dimensional
+  matrices. The product space contains (mno x mno) dimensional matrices.
 
-  Let C be a matrix from this product space. Its tensor representation,
-  can be obtained through
+  Let R be a Kronecker-product structured matrix from this product space. Its
+  tensor representation, can be obtained through
 
-                    tensor = matrix.reshape([ m, n, o, m, n, o ])
+                    T = R.reshape([ m, n, o, m, n, o ])
 
   where the first three axes each correspond to the 1st axis of matrices from
   the constituent spaces. The last three axes each correspond to the 2nd axis
   of these matrices. 
 
   For example, should one have three matrices - A, B and C - and their 
-  kronecker product, kron(kron(A, B), C), the matrix element 
+  Kronecker product, kron(kron(A, B), C), the matrix element 
 
-                            tensor[:, 0, 2, :, 1, 3 ]
+                            T[:, 0, 2, :, 1, 3 ]
 
   of its tensor representation would give
 
                              A * B[0, 1], * C[2, 3].
-
 
 Operating principles of partial transposition
 
@@ -94,7 +130,7 @@ Operating principles of partial transposition
 
                rho = sum(i, j, k, l) r(i, j, k, l) |i><j| |k><l|.
 
-  We define the partial transposition in respect to the second system as
+  We define the partial transposition with respect to the second system as
 
              pt(rho) = sum(i, j, k, l) r(i, j, k, l) |i><j| |l><k|
                      = sum(i, j, k, l) r(i, j, l, k) |i><j| |k><l|.
