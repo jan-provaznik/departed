@@ -98,27 +98,37 @@ Operating principles of Kronecker product and tensor representation
   An understanding of the internal memory layout of matrices with Kronecker
   product structure is crucial for both the partial trace and partial transpose
   operations. In both algorithms the matrix is first reshaped into its tensor
-  form. Its structure depends directly on the memory layout.
-  
-  Consider a tensor product of three matrix spaces. Let the first matrix space
-  comprise (m x m) matrices, the second one (n x n) matrices, and finally the
-  third one (o x o) matrices. The product space contains (mno x mno) matrices.
+  form. Its axes comprise the axes of its constituent matrices grouped by row
+  and column axes. 
 
-  Let R be a matrix with Kronecker product structure from this product space.
+  In particular, consider a matrix with Kronecker product structure comprising
+  N matrices and its tensor representation. The first N axes of the tensor are
+  the row axes of its matrix subspaces. The last N axes are the column axes of
+  its matrix subspaces.
+
+  This order appears counter-intuitive, however, it follows the internal memory
+  layout of the underlying numpy.ndarray object.
+  
+  To illustrate this concept in greater detail, consider a tensor product of
+  three matrix spaces where he first matrix space comprises (m x m) matrices,
+  the second one (n x n) matrices, and finally the third one (o x o) matrices.
+  The product space contains (mno x mno) matrices.
+
+  Let R be a matrix (with Kronecker product structure) from this product space.
   Its tensor representation can be obtained through
 
                     T = R.reshape([ m, n, o, m, n, o ])
 
-  where the first three axes of T each correspond to the 1st matrix axis of
-  matrices from the constituent spaces. The last three axes of T each
-  correspond to the 2nd matrix axis of these matrices. 
+  where the first three axes of T each correspond to row axes of matrices from
+  the constituent matrix spaces. The last three axes of T each correspond to
+  column axes of these matrices. 
 
   For example, should one have three matrices - A, B, and C - and their 
   Kronecker product, kron(kron(A, B), C), the element 
 
                             T[:, 0, 2, :, 1, 3 ]
 
-  of its tensor representation would give
+  of its tensor representation equals to
 
                              A * B[0, 1], * C[2, 3].
 
