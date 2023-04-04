@@ -2,10 +2,10 @@
 #
 # 2021 - 2023 Jan Provaznik (jan@provaznik.pro)
 #
-# Partial trace for Kronecker representation of
-# multi-partite discrete variable quantum systems.
+# Partial trace for matrices with Kronecker product structure.
 #
-# See README for detailed discussion of its operating principles.
+# See README for detailed discussion of its 
+# operating principles.
 
 import operator
 import functools

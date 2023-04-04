@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 #
-# 2021 - 2022 Jan Provaznik (jan@provaznik.pro)
+# 2021 - 2023 Jan Provaznik (jan@provaznik.pro)
 #
-# Partial transposition for Kronecker representation of
-# multi-partite discrete variable quantum systems.
+# Partial transpose for matrices with Kronecker product structure.
 #
-# See README for discussion of its operating principles.
+# See README for detailed discussion of its 
+# operating principles.
 
 def ptranspose (matrix, component_dims, component_mask):
     '''

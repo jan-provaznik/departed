@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 #
-# 2021 - 2022 Jan Provaznik (jan@provaznik.pro)
+# 2021 - 2023 Jan Provaznik (jan@provaznik.pro)
 #
-# Partial trace and partial transposition for Kronecker representation of
-# multi-partite discrete variable quantum systems.
+# Partial trace and partial transpose for matrices 
+# with Kronecker product structure.
 #
 # See README for detailed discussion of its operating principles.
 
@@ -13,6 +13,9 @@ version = '0.3.0'
 
 from ._ptrace import ptrace
 from ._ptranspose import ptranspose
+
+# Utilities.
+
 from ._utils import mask_from_component_list
 
 # Module exports 

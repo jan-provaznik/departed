@@ -1,6 +1,5 @@
-IMPARTIAL provides partial trace and partial transposition procedures for
-Kronecker-product structured matrices, such as those representing states of 
-multi-partite discrete variable quantum systems.
+IMPARTIAL provides partial trace and partial transpose procedures for
+matrices with Kronecker product structure. 
 
 Installation
 
@@ -15,7 +14,7 @@ Documentation
 
   - ptrace (matrix, component_dims, component_mask)
 
-    Computes the partial trace of a Kronecker-product structured matrix.
+    Computes the partial trace of matrix with Kronecker product structure.
     
     : matrix 
       defines the matrix to be partially traced
@@ -59,13 +58,13 @@ Documentation
 
       where the mask [ 1, 0, 1 ] sets 1 for components that will be transposed.
 
-  - mask_from_component_list (component_list, mask_width, set_ones = True)
+  - mask_from_component_list (component_list, mask_width, invert = False)
 
     A helper function which can be used to construct a component_mask from a
     list of component indices. By default 1 set for components listed in
     index_list and 0 for those unlisted. 
 
-    This logic can be inverted by setting set_ones = False. The resulting mask
+    This logic can be inverted by setting invert = True. The resulting mask
     will have 0 is set for listed components and 1 for those unlisted.
 
     : component_list
@@ -74,7 +73,7 @@ Documentation
     : mask_width
       defines the total number of components (mask width)
 
-    : set_ones
+    : invert
       defines how component_list is translated into component_mask
 
     Example
@@ -90,9 +89,9 @@ Documentation
       Suppose that the partial operation should NOT affect the 3rd and the 5th
       component. The respective mask [ 1, 1, 0, 1, 0 ] can be constructed with
 
-        mask_from_component_list([ 2, 4 ], 5, set_ones = False)
+        mask_from_component_list([ 2, 4 ], 5, invert = True)
 
-      where setting the optional parameter set_ones to False inverts the mask.
+      where setting the optional parameter (invert = True) inverts the mask.
 
 Operating principles of Kronecker product and tensor representation
 
