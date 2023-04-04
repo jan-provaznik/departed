@@ -95,10 +95,10 @@ Documentation
 
 Operating principles of Kronecker product and tensor representation
 
-  Understanding the internal memory layout of matrices with Kronecker product
-  structure is fundamental for both the partial trace and partial transpose
-  operations. Both algorithms begin with appropriate reshaping of the matrix
-  into its tensor form. 
+  An understanding of the internal memory layout of matrices with Kronecker
+  product structure is crucial for both the partial trace and partial transpose
+  operations. In both algorithms the matrix is first reshaped into its tensor
+  form. Its structure depends directly on the memory layout.
   
   Consider a tensor product of three matrix spaces. Let the first matrix space
   comprise (m x m) matrices, the second one (n x n) matrices, and finally the
