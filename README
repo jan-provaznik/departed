@@ -1,10 +1,10 @@
-IMPARTIAL provides partial trace and partial transpose procedures for
-matrices with Kronecker product structure. 
+IMPARTIAL provides partial trace and partial transpose operations for
+matrices with a Kronecker-product structure. 
 
 Installation
 
-  As of release 0.3.0 it is possible to retrieve the latest release of the
-  package from PyPi by running 'pip install --user impartial'
+  As of release 0.3.0, it is possible to retrieve the latest release of the
+  package from the PyPi repository by running 'pip install --user impartial'
 
 Examples
 
@@ -14,7 +14,7 @@ Documentation
 
   - ptrace (matrix, component_dims, component_mask)
 
-    Computes the partial trace of matrix with Kronecker product structure.
+    Computes the partial trace of a matrix with a Kronecker-product structure.
     
     : matrix 
       defines the matrix to be partially traced
@@ -28,16 +28,16 @@ Documentation
 
     Example
 
-      Consider a density matrix R of a three qubit quantum state. A partial
-      trace with respect to the 1st and 3rd qubit is obtained with 
+      Consider a density matrix R of a three-qubit quantum state. The partial
+      trace over the 1st and 3rd qubit is obtained with 
 
         ptrace(R, [ 2, 2, 2 ], [ 1, 0, 1 ])
 
-      where the mask [ 1, 0, 1 ] sets 1 for components that will be traced out.
+      where the mask [ 1, 0, 1 ] uses 1 for components that will be traced out.
 
   - ptranspose (matrix, component_dims, component_mask)
 
-    Computes the partial transpose of matrix with Kronecker product structure.
+    Computes the partial transpose of a matrix with a Kronecker-product structure.
 
     : matrix 
       defines the matrix to be partially transposed
@@ -51,21 +51,21 @@ Documentation
 
     Example
 
-      Consider a density matrix R of a three qubit quantum state. A partial
-      transpose with respect to the 1st and 3rd qubit is obtained with
+      Consider a density matrix R of a three-qubit quantum state. The partial
+      transpose over the 1st and 3rd qubit is obtained with
 
         ptranspose(R, [ 2, 2, 2 ], [ 1, 0, 1 ])
 
-      where the mask [ 1, 0, 1 ] sets 1 for components that will be transposed.
+      where the mask [ 1, 0, 1 ] uses 1 for components that will be transposed.
 
   - mask_from_component_list (component_list, mask_width, invert = False)
 
-    A helper function which can be used to construct a component_mask from a
-    list of component indices. By default 1 set for components listed in
-    index_list and 0 for those unlisted. 
+    A helper function that can be used to construct a component_mask from a
+    list of component indices. By default, 1 is set for components listed in
+    index_list and 0 for those that are unlisted. 
 
     This logic can be inverted by setting invert = True. The resulting mask
-    will have 0 is set for listed components and 1 for those unlisted.
+    will use 0 for listed components and 1 for those that are unlisted.
 
     : component_list
       defines a list of component indices (starting from 0)
@@ -79,14 +79,14 @@ Documentation
     Example
 
       Consider a system with 5 components. Suppose the partial operation of
-      choice is performed with respect to the 2nd and 4th component. The
+      choice is performed over the 2nd and 4th components. The
       corresponding mask [ 0, 1, 0, 1, 0 ] can be constructed with
 
         mask_from_component_list([ 1, 3 ], 5)
 
       where we note that the indices start from 0.
 
-      Suppose that the partial operation should NOT affect the 3rd and the 5th
+      Suppose that the partial operation should NOT affect the 3rd and 5th
       component. The respective mask [ 1, 1, 0, 1, 0 ] can be constructed with
 
         mask_from_component_list([ 2, 4 ], 5, invert = True)
@@ -95,33 +95,33 @@ Documentation
 
 Operating principles of Kronecker product and tensor representation
 
-  An understanding of the internal memory layout of matrices with Kronecker
-  product structure is crucial for both the partial trace and partial transpose
-  operations. In both algorithms the matrix is first reshaped into its tensor
-  form. Its axes comprise the axes of its constituent matrices grouped by row
-  and column axes. 
+  An understanding of the internal memory layout of matrices with a
+  Kronecker-product structure is crucial for both the partial trace and partial
+  transpose operations. In both algorithms, the matrix is first reshaped into a
+  tensor with the axes of its constituent matrices arranged according to their
+  direction, with row axes preceding column axes.
 
-  In particular, consider a matrix with Kronecker product structure comprising
-  N matrices and its tensor representation. The first N axes of the tensor are
-  the row axes of its matrix subspaces. The last N axes are the column axes of
-  its matrix subspaces.
+  In particular, consider a matrix with a Kronecker-product structure
+  comprising N matrices and its tensor representation. The first N axes of the
+  tensor are the row axes of its matrix constituents and the last N axes are
+  their column axes.
 
-  This order appears counter-intuitive, however, it follows the internal memory
-  layout of the underlying numpy.ndarray object.
+  This ordering appears counter-intuitive, however, it follows from the
+  internal memory layout of the underlying numpy.ndarray object.
   
   To illustrate this concept in greater detail, consider a tensor product of
-  three matrix spaces where he first matrix space comprises (m x m) matrices,
-  the second one (n x n) matrices, and finally the third one (o x o) matrices.
+  three matrix spaces, where the first matrix space comprises (m x m) matrices,
+  the second one (n x n) matrices, and finally, the third one (o x o) matrices.
   The product space contains (mno x mno) matrices.
 
   Let R be a matrix (with Kronecker product structure) from this product space.
   Its tensor representation can be obtained through
 
-                    T = R.reshape([ m, n, o, m, n, o ])
+                    T = R.reshape([ m, n, o, m, n, o ]),
 
-  where the first three axes of T each correspond to row axes of matrices from
-  the constituent matrix spaces. The last three axes of T each correspond to
-  column axes of these matrices. 
+  where the first three axes of T each correspond to the row axes of matrices
+  from the constituent matrix spaces. The last three axes of T each correspond
+  to the column axes of these matrices. 
 
   For example, should one have three matrices - A, B, and C - and their 
   Kronecker product, kron(kron(A, B), C), the element 
@@ -136,81 +136,80 @@ Operating principles of partial transpose
 
   Consider an arbitrary bipartite quantum state
 
-               rho = sum(i, j, k, l) r(i, j, k, l) |i><j| |k><l|.
+               rho = sum(i, j, k, l) Q(i, j, k, l) |i><j| |k><l|.
 
-  We define the partial transposition with respect to the second system as
+  We define the partial transpose over the second system as
 
-             pt(rho) = sum(i, j, k, l) r(i, j, k, l) |i><j| |l><k|
-                     = sum(i, j, k, l) r(i, j, l, k) |i><j| |k><l|.
+             pt(rho) = sum(i, j, k, l) Q(i, j, k, l) |i><j| |l><k|
+                     = sum(i, j, k, l) Q(i, j, l, k) |i><j| |k><l|.
 
-  In Kronecker representation the density operator is encoded in a matrix
-  rather than the rank four tensor r(i, j, k, l). The partial transposition 
-  is determined as easily in this representation.
+  If the density operator is encoded in a matrix with Kronecker-product
+  structure, the partial transpose no longer amounts to a simple exchange of
+  axes. It can be realized by determining the affected indices of the matrix
+  and exchanging their values. Not only is this approach cumbersome, but also
+  extremely inelegant.
 
-  One of the possible approaches is to determine the affected indices of the
-  Kronecker matrix. Not only is this cumbersome, it is also inelegant.
+  A better alternative is to reshape the matrix into a tensor of appropriate
+  rank. The reshaping operation is computationally cheap as it only affects the
+  interpretation of the underlying numpy.ndarray object.
 
-  A better alternative is to reshape the matrix into tensor form of appropriate
-  rank. The reshaping operation only changes the interpretation of the
-  underlying memory.
-
-  Suppose R is the Kronecker representation of the state rho. Suppose (m, n)
-  are the dimensions of the individual systems comprising the state. With
+  Suppose R is the matrix representation of the state rho. Suppose m and n are
+  the dimensions of the individual systems comprising the state. With
 
                          T = reshape(R, [ m, n, m, n ])
 
-  we obtain a rank four tensor T. But alas the tensor T is not the same as
-  the tensor r(i, j, k, l). The order of their indices is different! We have
+  we obtain a rank four tensor T. But alas, the tensor T is not the same as
+  the tensor Q. The order of their indices is different. We have
 
                                  T(i, k, j, l)
 
-  instead of the original r(i, j, k, l). Consequently the partial transposition
+  instead of the theoretical Q(i, j, k, l). Consequently, the partial transpose
   corresponds to the exchange of the 2nd and 4th indices
 
-                       pt(T)(i, j, k, l) = T(i, l, j, k).
+                       pt(T)(i, k, j, l) = T(i, l, j, k).
 
   We can reconstruct the Kronecker representation by reshaping the tensor back
   into the original matrix shape.
 
-  This idea can be generalized to arbitrary amount of components. It is
+  This idea can be generalized to an arbitrary number of components. It is
   practical to use the standard numpy.transpose procedure and supply the
   correct axial permutation. Our ptranspose does exactly that.
 
 Operating principles of partial trace
   
-  We build on the same ideas we explored for partial transpose and then add a
-  figurative cherry on top: by reordering the tensor we can trace out
-  everything in a single go.
+  We build on the same ideas we have explored for partial transpose and then
+  add a figurative cherry on top: by reordering the tensor, we can perform only
+  a single trace operation even if multiple components are to be traced out.
 
-  Let us begin with a bipartite system again with density matrix
+  Let us begin with a bipartite system again with a density matrix
 
-               rho = sum(i, j, k, l) r(i, j, k, l) |i><j| |k><l|.
+               rho = sum(i, j, k, l) Q(i, j, k, l) |i><j| |k><l|.
 
-  We define the partial trace performed over the second component as
+  We define the partial trace performed over its second component as
 
-         rho' = sum(u) sum(i, j, k, l) r(i, j, k, l) |i><j| <u|k> <l|u>
-              = sum(i, j, k) r(i, j, k, k) |i><j|
-              = sum(i, j) [ sum(k) r(i, j, k, k) ] |i><j|
+         rho' = sum(u) sum(i, j, k, l) Q(i, j, k, l) |i><j| <u|k> <l|u>
+              = sum(i, j, k) Q(i, j, k, k) |i><j|
+              = sum(i, j) [ sum(k) Q(i, j, k, k) ] |i><j|,
 
-  where we have presumed orthogonality of the individual { |k>, |l> } kets.
+  where we have presumed that the individual { |k>, |l> } kets are orthonormal.
 
-  In Kronecker representation the density operator is encoded in a matrix
-  rather than the rank four tensor r(i, j, k, l). We have already established 
-  that the matrix R, corresponding to rho in Kronecker representation, can be
-  reshaped into tensor form with different order of indices,
+  If the density operator is encoded in a matrix with a Kronecker-product
+  structure, the partial trace no longer amounts to a sum over the affected
+  axes. We have already established that the matrix R can be reshaped into
 
-                                 T(i, k, j, l)
+                                 T(i, k, j, l),
 
-  which means that to obtain the partial trace, we must evaluate
+  a tensor with indices different from Q(i, j, k, l). This means that if we
+  wish to obtain the partial trace, we must evaluate
 
-                         g(i, j) = sum(k) T(i, k, j, k)
+                         M(i, j) = sum(k) T(i, k, j, k),
 
-  which defines elements g(i, j) of the marginal tensor. This approach can
+  which defines the elements M(i, j) of the marginal tensor. This approach can
   be extended for multi-partite systems and further optimized. We can permute
-  the axes to gather the parts to be traced out into a single block and then
+  the axes to gather the parts to be traced out into a single block, and then
   compute the trace in one go.
 
-Notes and acknowledgements
+Notes and acknowledgments
 
   This project was inspired by QuTiP (https://github.com/qutip/qutip) and their
   essentially identical implementation. This project aims to explain the
