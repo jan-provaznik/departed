@@ -27,5 +27,5 @@ jobs:
         with:
           repository_url: https://test.pypi.org/legacy/
           password: ${{ secrets.PYPI_API_TOKEN_TEST }}
-          packages_dir: dist
-          skip_existing: true
+          packages-dir: dist
+          skip-existing: true
