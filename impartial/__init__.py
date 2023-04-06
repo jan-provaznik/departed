@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-#
 # 2021 - 2023 Jan Provaznik (jan@provaznik.pro)
 #
 # Partial trace and transpose operations
