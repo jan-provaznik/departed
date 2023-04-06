@@ -1,4 +1,4 @@
-from impartial import mask_from_component_list
+from departed import mask_from_component_list
 
 def test_mask ():
     mask_target = [ 1, 0, 0, 1 ]

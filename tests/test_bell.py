@@ -1,6 +1,6 @@
 import numpy
 
-from impartial import (
+from departed import (
     ptrace,
     ptranspose
 )

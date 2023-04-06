@@ -1,7 +1,7 @@
-# Using impartial.ptrace, a tutorial.
+# Using departed.ptrace, a tutorial.
 
 import numpy
-import impartial
+import departed
 
 def randrho (dim):
     rho = numpy.random.rand(dim, dim) + 1j * numpy.random.rand(dim, dim)
@@ -23,15 +23,15 @@ rhoABC = numpy.kron(numpy.kron(rhoA, rhoB), rhoC)
 
 # Compute one-body marginals from rhoABC.
 
-marginalA = impartial.ptrace(rhoABC, [ dim, dim, dim ], [ 0, 1, 1 ])
+marginalA = departed.ptrace(rhoABC, [ dim, dim, dim ], [ 0, 1, 1 ])
 
 # We can also use mask_from_component_list.
 
-marginalB = impartial.ptrace(rhoABC, [ dim, dim, dim ], 
-    impartial.mask_from_component_list([ 0, 2 ], 3))
+marginalB = departed.ptrace(rhoABC, [ dim, dim, dim ], 
+    departed.mask_from_component_list([ 0, 2 ], 3))
 
-marginalC = impartial.ptrace(rhoABC, [ dim, dim, dim ], 
-    impartial.mask_from_component_list([ 2 ], 3, invert = True))
+marginalC = departed.ptrace(rhoABC, [ dim, dim, dim ], 
+    departed.mask_from_component_list([ 2 ], 3, invert = True))
 
 # Compare results
 

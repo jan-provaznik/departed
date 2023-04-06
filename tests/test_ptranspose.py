@@ -2,7 +2,7 @@ import numpy
 import itertools
 import functools
 
-from impartial import ptranspose
+from departed import ptranspose
 
 def kron (* matrices):
     return functools.reduce(numpy.kron, matrices, 1)

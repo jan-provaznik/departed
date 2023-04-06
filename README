@@ -1,10 +1,10 @@
-IMPARTIAL provides partial trace and partial transpose operations for
+DEPARTED provides partial trace and partial transpose operations for
 matrices with a Kronecker-product structure. 
 
 Installation
 
   As of release 0.3.0, it is possible to retrieve the latest release of the
-  package from the PyPi repository by running 'pip install --user impartial'
+  package from the PyPi repository by running 'pip install --user departed'
 
 Examples
 
