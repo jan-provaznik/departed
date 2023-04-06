@@ -25,12 +25,7 @@ jobs:
         run: |-
           python -m pip install dist/*.whl
 
-      - name: Move source before running tests
-        shell: bash
-        run: |-
-          mv impartial impartial-moved
-
       - name: Execute tests
         run: |-
-          python -m pytest -- tests
+          pytest -- tests
 

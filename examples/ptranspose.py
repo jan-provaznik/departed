@@ -1,7 +1,7 @@
-# Using impartial.ptranspose, a tutorial.
+# Using departed.ptranspose, a tutorial.
 
 import numpy
-import impartial
+import departed
 
 # Peres-Horodecki criterion
 #
@@ -16,7 +16,7 @@ rhoAB = 0.5 * numpy.array([
     [ 1, 0, 0, 1 ]
 ])
 
-rhoABptB = impartial.ptranspose(rhoAB, [ 2, 2 ], [ 0, 1 ])
+rhoABptB = departed.ptranspose(rhoAB, [ 2, 2 ], [ 0, 1 ])
 evals = numpy.linalg.eigvalsh(rhoABptB)
 
 print('PPT', evals.min())
