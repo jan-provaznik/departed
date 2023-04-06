@@ -47,7 +47,7 @@ Documentation
 
     : component_mask
       defines a mask specifying whether a component should be 
-      transposed (1, True) or left unaltered (0, False).
+      transposed (1, True) or left intact (0, False).
 
     Example
 
@@ -60,12 +60,10 @@ Documentation
 
   - mask_from_component_list (component_list, mask_width, invert = False)
 
-    A helper function that can be used to construct a component_mask from a
-    list of component indices. By default, 1 is set for components listed in
-    index_list and 0 for those unlisted. 
+    Constructs a component_mask from a list of component indices.
 
-    This logic can be inverted by setting invert = True. The resulting mask
-    will use 0 for listed components and 1 for those unlisted.
+    By default, 1 is set for components listed in index_list and 0 for those
+    unlisted. These values can be inverted by setting invert = True. 
 
     : component_list
       defines a list of component indices (starting from 0)

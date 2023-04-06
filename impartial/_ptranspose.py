@@ -1,30 +1,28 @@
-#!/usr/bin/env python3
-#
 # 2021 - 2023 Jan Provaznik (jan@provaznik.pro)
 #
-# Partial transpose for matrices with Kronecker product structure.
+# Partial transpose operation 
+# for matrices with a structure induced by the Kronecker product.
 #
-# See README for detailed discussion of its 
-# operating principles.
+# See README for detailed discussion of its operating principles.
 
 def ptranspose (matrix, component_dims, component_mask):
     '''
-    Compute the partial transpose of a Kronecker-product structured matrix.
+    Computes the partial transpose of a matrix with a Kronecker-product structure.
 
     Parameters
     ----------
     matrix : numpy.ndarray
-        Matrix to be partially transposed
+        The matrix to be partially transposed
     component_dims : iterable (of integers)
-        Dimensions of individual components.
+        Dimensions of its components.
     component_mask : iterable (if integers)
         Specifies whether a component should be 
-        transposed (1, True) or left unaltered (0, False).
+        transposed (1, True) or left intact (0, False).
 
     Returns
     -------
     numpy.ndarray
-        Partially transposed matrix.
+        The partially transposed matrix.
     '''
 
     dims = list(map(int, component_dims))
@@ -32,14 +30,13 @@ def ptranspose (matrix, component_dims, component_mask):
     nsys = len(dims)
 
     # Construct a look-up table for component axes.
-    #
-    # Tensor representation of kronecker-product structured matrix has
-    # interleaved axes. 
+    # Note that the tensor representation of a matrix with a Kronecker-product
+    # structure has interleaved axes. 
 
     system_axes = [ (k, k + nsys) for k in range(nsys) ]
 
-    # Construct a permutation vector to reorganize the tensor representation
-    # so that axes of the components to be transposed are exchanged.
+    # Construct a permutation vector to reorganize the tensor so that axes of
+    # the components that will be transposed are exchanged.
 
     permutation = (
         [ system_axes[k][mask[k]]     for k in range(nsys) ] + 
@@ -47,10 +44,10 @@ def ptranspose (matrix, component_dims, component_mask):
     )
 
     # (1) Reshape the matrix representation into a tensor representation. 
-    #     Note that this tensor representation has interleaved axes.
+    #     Note that this tensor representation has grouped axes.
     # (2) Reorganize the tensor representation to perform the desired
     #     partial transposition.
-    # (3) Reshape the resulting (transposed) tensor back into a martrix. 
+    # (3) Reshape the resulting (transposed) tensor back into a matrix. 
 
     return (matrix
         .reshape(dims + dims)

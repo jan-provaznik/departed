@@ -2,8 +2,8 @@
 #
 # 2021 - 2023 Jan Provaznik (jan@provaznik.pro)
 #
-# Partial trace and partial transpose for matrices 
-# with Kronecker product structure.
+# Partial trace and transpose operations
+# for matrices with a structure induced by the Kronecker product.
 #
 # See README for detailed discussion of its operating principles.
 

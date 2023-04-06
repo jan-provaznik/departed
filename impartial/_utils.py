@@ -1,28 +1,25 @@
-#!/usr/bin/env python3
-#
 # 2021 - 2023 Jan Provaznik (jan@provaznik.pro)
 #
-# Partial trace and partial transpose for matrices 
-# with Kronecker product structure.
+# Partial trace and transpose operations
+# for matrices with a structure induced by the Kronecker product.
 #
-# Utility functions.
+# See README for detailed discussion of its operating principles.
 
 import operator
 
 def mask_from_component_list (component_list, mask_width, invert = False):
     '''
-    Constructs a component_mask from a list of component indices. By default 1
-    set for components listed in component_list and 0 for those unlisted. 
+    Constructs a component_mask from a list of component indices.
 
-    This logic can be inverted by setting invert = True. The resulting mask
-    will have 0 is set for listed components and 1 for those unlisted.
+    By default, 1 is set for components listed in index_list and 0 for those
+    unlisted. These values can be inverted by setting invert = True. 
 
     Parameters
     ----------
     component_list : iterable
-        The list of indices to carry unaltered.
+        The list of component indices (starting from 0).
     mask_width : int
-        The total number of components (width of the mask).
+        The total number of components comprising the system.
     invert : bool
         Defines how component_list is translated into component_mask.
 
