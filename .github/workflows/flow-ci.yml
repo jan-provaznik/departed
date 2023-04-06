@@ -28,8 +28,9 @@ jobs:
       - name: Move source before running tests
         shell: bash
         run: |-
-          mv witnessmess witnessmess-moved
+          mv impartial impartial-moved
 
       - name: Execute tests
         run: |-
           python -m pytest -- tests
+

@@ -1,13 +1,15 @@
-#!/usr/bin/env python3
+# 2021 - 2023 Jan Provaznik (jan@provaznik.pro)
 #
-# 2021 - 2022 Jan Provaznik (jan@provaznik.pro)
-#
-# Let's see how poorly this goes.
+# Partial trace and transpose operations
+# for matrices with a structure induced by the Kronecker product.
 
 import setuptools
 
-VERSION = '0.2.2'
-DESCRIPTION = 'Partial trace and partial transposition for Kronecker representation of multi-partite discrete variable quantum systems.'
+VERSION = '0.3.0'
+DESCRIPTION = 'Partial trace and partial transpose for matrices with Kronecker product structure.'
+
+with open('./README', encoding = 'utf-8') as file:
+    README = file.read()
 
 # Yes, yes, yes!
 
@@ -15,10 +17,13 @@ setuptools.setup(
     name = 'impartial',
     version = VERSION,
     description = DESCRIPTION,
+    long_description = README,
+    long_description_content_type = 'text/plain',
     author = 'Jan Provaznik',
     author_email = 'jan@provaznik.pro',
     url = 'https://provaznik.pro/impartial',
     license = 'LGPL',
+
     packages = [ 'impartial' ]
 )
 
