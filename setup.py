@@ -5,7 +5,7 @@
 
 import setuptools
 
-VERSION = '0.3.0'
+VERSION = '0.3.1'
 DESCRIPTION = 'Partial trace and partial transpose for matrices with Kronecker product structure.'
 
 with open('./README', encoding = 'utf-8') as file:

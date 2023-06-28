@@ -5,7 +5,7 @@
 #
 # See README for detailed discussion of its operating principles.
 
-version = '0.3.0'
+version = '0.3.1'
 
 # Partial trace and partial transpose.
 
