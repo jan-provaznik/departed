@@ -133,9 +133,8 @@ Operating principles of Kronecker product and its tensor representation
                                A * B[0, 1], * C[2, 3].
   Remarks
   
-    Some software libraries, such as The Walrus, Strawberry Fields, and 
-    Mr Mustard, use Kronecker-product compatible tensors to represent quantum
-    states and operations.
+    Some software libraries use tensors structurally compatible with
+    Kronecker-product matrices to represent quantum states and operations.
 
 Operating principles of partial transpose
 
@@ -144,8 +143,8 @@ Operating principles of partial transpose
                rho = sum(i, j, k, l) R(i, k, j, l) |i><j| |k><l|,
 
   where the rank four tensor R(i, k, j, l) determines its coefficients. The
-  order of its axes indices follows the tensor representation of matrices with
-  a Kronecker-product structure, that is, row indices precede column indices.
+  order of its indices (axes) follows the tensor representation of matrices
+  with a Kronecker-product structure. Its row indices precede column indices.
 
   We define the partial transpose over the second system as
 
@@ -170,7 +169,7 @@ Operating principles of partial transpose
                          T = reshape(Q, [ m, n, m, n ])
 
   we obtain a rank four tensor T. Consequently, the partial transpose
-  corresponds to the exchange of the 2nd and 4th indices
+  corresponds to the exchange of the 2nd and the 4th index,
 
                        pt(T)(i, k, j, l) = T(i, l, j, k).
 
@@ -187,7 +186,7 @@ Operating principles of partial trace
   add a figurative cherry on top: by reordering the tensor, we can perform only
   a single trace operation even if multiple components are to be traced out.
 
-  Let us begin with a bipartite system again with a density matrix
+  Let us begin with a bipartite system again and a density matrix
 
                rho = sum(i, j, k, l) R(i, k, j, l) |i><j| |k><l|.
 
