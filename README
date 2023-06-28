@@ -91,7 +91,7 @@ Documentation
 
       where setting the optional parameter (invert = True) inverts the mask.
 
-Operating principles of Kronecker product and tensor representation
+Operating principles of Kronecker product and its tensor representation
 
   An understanding of the internal memory layout of matrices with a
   Kronecker-product structure is crucial for both the partial trace and partial
@@ -106,44 +106,56 @@ Operating principles of Kronecker product and tensor representation
 
   This ordering appears counter-intuitive, however, it follows from the
   internal memory layout of the underlying numpy.ndarray object.
+
+  Example
   
-  To illustrate this concept in greater detail, consider a tensor product of
-  three matrix spaces, where the first matrix space comprises (m x m) matrices,
-  the second one (n x n) matrices, and finally, the third one (o x o) matrices.
-  The product space contains (mno x mno) matrices.
+    To illustrate this concept in greater detail, we consider a tensor product
+    of three matrix spaces, where the first matrix space comprises (m x m)
+    matrices, the second one (n x n) matrices, and finally, the third
+    one (o x o) matrices. The product space contains (mno x mno) matrices.
 
-  Let R be a matrix (with a Kronecker-product structure) from this product
-  space. Its tensor representation can be obtained through
+    Let Q be a matrix (with a Kronecker-product structure) from this product
+    space. Its tensor representation can be obtained through
 
-                    T = R.reshape([ m, n, o, m, n, o ]),
+                      T = Q.reshape([ m, n, o, m, n, o ]),
 
-  where the first three axes of T each correspond to the row axes of matrices
-  from the constituent matrix spaces. The last three axes of T each correspond
-  to the column axes of these matrices. 
+    where the first three axes of the tensor T each correspond to the row axes
+    of matrices from the constituent matrix spaces and the last three axes of
+    the tensor each correspond to the column axes of these matrices. 
 
-  For example, should one have three matrices - A, B, and C - and their 
-  Kronecker product, kron(kron(A, B), C), the element 
+    For example, should one have three matrices - A, B, and C - and their 
+    Kronecker product, kron(kron(A, B), C), the element 
 
-                            T[:, 0, 2, :, 1, 3 ]
+                              T[:, 0, 2, :, 1, 3 ]
 
-  of its tensor representation equals to
+    of its tensor representation equals to
 
-                             A * B[0, 1], * C[2, 3].
+                               A * B[0, 1], * C[2, 3].
+  Remarks
+  
+    Some software libraries use tensors structurally compatible with
+    Kronecker-product matrices to represent quantum states and operations.
 
 Operating principles of partial transpose
 
-  Consider an arbitrary bipartite quantum state
+  Consider an arbitrary bipartite quantum state defined by its density operator
 
-               rho = sum(i, j, k, l) Q(i, j, k, l) |i><j| |k><l|.
+               rho = sum(i, j, k, l) R(i, k, j, l) |i><j| |k><l|,
+
+  where the rank four tensor R(i, k, j, l) determines its coefficients. The
+  order of its indices (axes) follows the tensor representation of matrices
+  with a Kronecker-product structure. Its row indices precede column indices.
 
   We define the partial transpose over the second system as
 
-             pt(rho) = sum(i, j, k, l) Q(i, j, k, l) |i><j| |l><k|
-                     = sum(i, j, k, l) Q(i, j, l, k) |i><j| |k><l|.
+             pt(rho) = sum(i, j, k, l) R(i, k, j, l) |i><j| |l><k|
+                     = sum(i, j, k, l) R(i, l, j, k) |i><j| |k><l|.
 
   If the density operator is encoded in a matrix with a Kronecker-product
-  structure, the partial transpose no longer amounts to a simple exchange of
-  axes. It can be realized by determining the affected indices of the matrix
+  structure, rather than a rank four tensor, the partial transpose no longer
+  amounts to a simple exchange of axes.
+
+  It can be realized by determining the affected indices of the matrix
   and exchanging their values. Not only is this approach cumbersome, but also
   extremely inelegant.
 
@@ -151,18 +163,13 @@ Operating principles of partial transpose
   rank. The reshaping operation is computationally cheap as it only affects the
   interpretation of the underlying numpy.ndarray object.
 
-  Suppose R is the matrix representation of the state rho. Suppose m and n are
+  Suppose Q is the matrix representation of the state rho. Suppose m and n are
   the dimensions of the individual systems comprising the state. With
 
-                         T = reshape(R, [ m, n, m, n ])
+                         T = reshape(Q, [ m, n, m, n ])
 
-  we obtain a rank four tensor T. But alas, the tensor T is not the same as
-  the tensor Q. The order of their indices is different. We have
-
-                                 T(i, k, j, l)
-
-  instead of the theoretical Q(i, j, k, l). Consequently, the partial transpose
-  corresponds to the exchange of the 2nd and 4th indices
+  we obtain a rank four tensor T. Consequently, the partial transpose
+  corresponds to the exchange of the 2nd and the 4th index,
 
                        pt(T)(i, k, j, l) = T(i, l, j, k).
 
@@ -179,26 +186,24 @@ Operating principles of partial trace
   add a figurative cherry on top: by reordering the tensor, we can perform only
   a single trace operation even if multiple components are to be traced out.
 
-  Let us begin with a bipartite system again with a density matrix
+  Let us begin with a bipartite system again and a density matrix
 
-               rho = sum(i, j, k, l) Q(i, j, k, l) |i><j| |k><l|.
+               rho = sum(i, j, k, l) R(i, k, j, l) |i><j| |k><l|.
 
   We define the partial trace performed over its second component as
 
-         rho' = sum(u) sum(i, j, k, l) Q(i, j, k, l) |i><j| <u|k> <l|u>
-              = sum(i, j, k) Q(i, j, k, k) |i><j|
-              = sum(i, j) [ sum(k) Q(i, j, k, k) ] |i><j|,
+         rho' = sum(u) sum(i, j, k, l) R(i, k, j, l) |i><j| <u|k> <l|u>
+              = sum(i, j, k) R(i, k, j, k) |i><j|
+              = sum(i, j) [ sum(k) R(i, k, j, k) ] |i><j|,
 
   where we have presumed that the individual { |k>, |l> } kets are orthonormal.
 
-  If the density operator is encoded in a matrix with a Kronecker-product
-  structure, the partial trace no longer amounts to a sum over the affected
-  axes. We have already established that the matrix R can be reshaped into
+  If the density operator is encoded in a matrix Q with a Kronecker-product
+  structure, the partial trace can be obtained from its tensor representation
 
-                                 T(i, k, j, l),
+                         T = reshape(Q, [ m, n, m, n ]).
 
-  a tensor with indices different from Q(i, j, k, l). This means that if we
-  wish to obtain the partial trace, we must evaluate
+  To obtain the partial trace, we must evaluate
 
                          M(i, j) = sum(k) T(i, k, j, k),
 
